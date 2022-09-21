@@ -2,7 +2,6 @@ import org.jetbrains.kotlinx.multik.api.Multik
 import org.jetbrains.kotlinx.multik.api.linalg.dot
 import org.jetbrains.kotlinx.multik.api.ndarray
 import org.jetbrains.kotlinx.multik.api.rand
-import org.jetbrains.kotlinx.multik.ndarray.data.D1Array
 import org.jetbrains.kotlinx.multik.ndarray.data.D2Array
 import org.jetbrains.kotlinx.multik.ndarray.operations.minus
 import org.jetbrains.kotlinx.multik.ndarray.operations.plusAssign
@@ -23,10 +22,10 @@ class NeuralNetwork(
         val targetsNd = Multik.ndarray(targets, 10, 1)
 
         val hiddenInputs = Multik.linalg.dot(weightsInputHidden, inputsNd)
-        val hiddenOutputs = sigmoid2(hiddenInputs)
+        val hiddenOutputs = activation(hiddenInputs)
 
         val finalInputs = Multik.linalg.dot(weightsHiddenOutput, hiddenOutputs)
-        val finalOutputs = sigmoid2(finalInputs)
+        val finalOutputs = activation(finalInputs)
 
         val outputErrors = targetsNd - finalOutputs
         val hiddenErrors = Multik.linalg.dot(weightsHiddenOutput.transpose(), outputErrors)

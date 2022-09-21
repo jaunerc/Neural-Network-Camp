@@ -1,5 +1,5 @@
 fun main(args: Array<String>) {
-    val neuralNetwork = NeuralNetwork(784, 200, 10, ::sigmoid2, 0.1)
+    val neuralNetwork = NeuralNetwork(784, 200, 10, ::sigmoid, 0.1)
 
     val trainingData = readCsv("src/main/resources/mnist_train.csv")
 
