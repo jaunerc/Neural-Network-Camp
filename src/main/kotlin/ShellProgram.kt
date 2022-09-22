@@ -9,23 +9,64 @@ class ShellProgram {
         inputReader()
     }
 
+    private fun printCommandInfo() {
+        println("-------------------------------")
+        println("type 't' to train a new neural network")
+        println("type 'm' to measure the neural network")
+        println("type 's' to save the neural network")
+        println("type 'l' to load a neural network from a file")
+    }
+
     private fun inputReader() {
         while (true) {
             printCommandInfo()
 
-            val input = readln()
-
-            if (input == "t") {
-                executeTrainCommand()
-            } else if (input == "m") {
-                executeMeasureCommand()
+            when (readln()) {
+                "t" -> {
+                    executeTrainCommand()
+                }
+                "m" -> {
+                    executeMeasureCommand()
+                }
+                "s" -> {
+                    executeSaveCommand()
+                }
+                "l" -> {
+                    executeLoadCommand()
+                }
             }
         }
     }
 
+    private fun executeLoadCommand() {
+        println("file path to the json file:")
+        val filePath = readln()
+
+        val json = readNeuralNetwork(filePath)
+        neuralNetwork = convertFrom(json)
+    }
+
+    private fun executeSaveCommand() {
+        if (neuralNetwork == null) {
+            println("ERROR: there is no neural network present")
+            println("please train a new neural network or import an existing one")
+        } else {
+            println("file path:")
+            val filePath = readln()
+
+            val json = convertTo(neuralNetwork!!)
+            saveNeuralNetwork(json, filePath)
+        }
+    }
+
     private fun executeMeasureCommand() {
-        println("measure the neural network")
-        neuralNetwork?.let { measureScore(it, TEST_FILE_PATH) }
+        if (neuralNetwork == null) {
+            println("ERROR: there is no neural network present")
+            println("please train a new neural network or import an existing one")
+        } else {
+            println("measure the neural network")
+            measureScore(neuralNetwork!!, TEST_FILE_PATH)
+        }
     }
 
     private fun executeTrainCommand() {
@@ -39,11 +80,5 @@ class ShellProgram {
         neuralNetwork = trainNeuralNetwork(TRAINING_FILE_PATH, learningRate, epochs)
 
         println("training is done")
-    }
-
-    private fun printCommandInfo() {
-        println("-------------------------------")
-        println("type 't' to train a new neural network")
-        println("type 'm' to measure the neural network")
     }
 }

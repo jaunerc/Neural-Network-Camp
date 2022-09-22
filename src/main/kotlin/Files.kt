@@ -26,3 +26,11 @@ fun readPng(path: String): List<Int> {
 
     return grayValues
 }
+
+fun saveNeuralNetwork(json: String, filePath: String) {
+    File(filePath).writeText(json)
+}
+
+fun readNeuralNetwork(filePath: String): String {
+    return File(filePath).readText()
+}

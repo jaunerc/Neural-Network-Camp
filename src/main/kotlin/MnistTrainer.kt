@@ -1,9 +1,15 @@
+import org.jetbrains.kotlinx.multik.api.Multik
+import org.jetbrains.kotlinx.multik.api.rand
+import org.jetbrains.kotlinx.multik.ndarray.operations.minus
+
 private const val numInputNodes = 784
 private const val numHiddenNodes = 200
 private const val numOutputNodes = 10
 
 fun trainNeuralNetwork(trainingFilePath: String, learningRate: Double, epochs: Int): NeuralNetwork {
-    val neuralNetwork = NeuralNetwork(numInputNodes, numHiddenNodes, numOutputNodes, ::sigmoid, learningRate)
+    val weightsInputHidden = Multik.rand<Double>(numHiddenNodes, numInputNodes) - 0.5
+    val weightsHiddenOutput = Multik.rand<Double>(numOutputNodes, numHiddenNodes) - 0.5
+    val neuralNetwork = NeuralNetwork(numInputNodes, numHiddenNodes, numOutputNodes, ::sigmoid, learningRate, weightsInputHidden, weightsHiddenOutput)
     val trainingData = readCsv(trainingFilePath)
 
     trainNetwork(neuralNetwork, trainingData, epochs)

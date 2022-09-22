@@ -1,22 +1,20 @@
 import org.jetbrains.kotlinx.multik.api.Multik
 import org.jetbrains.kotlinx.multik.api.linalg.dot
 import org.jetbrains.kotlinx.multik.api.ndarray
-import org.jetbrains.kotlinx.multik.api.rand
 import org.jetbrains.kotlinx.multik.ndarray.data.D2Array
 import org.jetbrains.kotlinx.multik.ndarray.operations.minus
 import org.jetbrains.kotlinx.multik.ndarray.operations.plusAssign
 import org.jetbrains.kotlinx.multik.ndarray.operations.times
 
 class NeuralNetwork(
-    inputNodes: Int,
-    hiddenNodes: Int,
-    outputNodes: Int,
+    val inputNodes: Int,
+    val hiddenNodes: Int,
+    val outputNodes: Int,
     private val activation: (D2Array<Double>) -> D2Array<Double>,
-    private val learningRate: Double
+    val learningRate: Double,
+    val weightsInputHidden: D2Array<Double>,
+    val weightsHiddenOutput: D2Array<Double>
 ) {
-    private val weightsInputHidden = Multik.rand<Double>(hiddenNodes, inputNodes) - 0.5
-    private val weightsHiddenOutput = Multik.rand<Double>(outputNodes, hiddenNodes) - 0.5
-
     fun train(inputs: List<Double>, targets: List<Double>) {
         val inputsNd = Multik.ndarray(inputs, 784, 1)
         val targetsNd = Multik.ndarray(targets, 10, 1)
