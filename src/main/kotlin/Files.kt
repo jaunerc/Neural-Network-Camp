@@ -16,11 +16,12 @@ fun readCsv(path: String): List<List<Int>> {
 
 fun readPng(path: String): List<Int> {
     val img = ImageIO.read(File(path))
-    val grayValues = mutableListOf(3)
+    val grayValues = mutableListOf<Int>()
 
     for (x in 0 until img.width) {
         for (y in 0 until img.height) {
-            grayValues.add(img.data.getSample(x, y, 0))
+            val element = 255 - img.data.getSample(y, x, 0)
+            grayValues.add(element)
         }
     }
 

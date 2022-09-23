@@ -15,6 +15,7 @@ class ShellProgram {
         println("type 'm' to measure the neural network")
         println("type 's' to save the neural network")
         println("type 'l' to load a neural network from a file")
+        println("type 'q' to query the neural network with an image of a number")
     }
 
     private fun inputReader() {
@@ -34,8 +35,28 @@ class ShellProgram {
                 "l" -> {
                     executeLoadCommand()
                 }
+                "q" -> {
+                    executeQueryCommand()
+                }
             }
         }
+    }
+
+    private fun executeQueryCommand() {
+        println("file path to the number image file:")
+        val filePath = readln()
+
+        val pngVector = readPng(filePath).stream()
+            .map(::normalizeRecord)
+            .toList()
+
+        val resultVector = neuralNetwork?.query(pngVector)
+        val networkGuess = resultVector?.data?.withIndex()?.maxByOrNull { it.value }?.index
+
+        println(resultVector)
+        println()
+        println("the network says")
+        println(networkGuess)
     }
 
     private fun executeLoadCommand() {

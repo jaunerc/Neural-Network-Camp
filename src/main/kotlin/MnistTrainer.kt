@@ -68,4 +68,4 @@ fun queryRecord(neuralNetwork: NeuralNetwork, record: List<Int>): Boolean {
     return record[0] == indexWithHighestScore
 }
 
-private fun normalizeRecord(grayValue: Int) = grayValue.toDouble() / 255.0 * 0.99 + 0.01
+fun normalizeRecord(grayValue: Int) = grayValue.toDouble() / 255.0 * 0.99 + 0.01
